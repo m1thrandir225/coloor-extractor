@@ -72,8 +72,10 @@ export default function Form({getColors}: FormProps) {
       </div>
       <div className="flex flex-col items-start max-w-[50%] self-center md:max-w-full md:items-center justify-center gap-6 md:flex-row">
         {colors &&
-          colors.map((item) => {
-            return <ColorSwatch color={item.color!} name={item.name} />;
+          colors.map((item, index) => {
+            return (
+              <ColorSwatch key={index} color={item.color!} name={item.name} />
+            );
           })}
       </div>
     </div>

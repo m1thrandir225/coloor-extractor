@@ -1,7 +1,9 @@
-# Color Extractor
+# coolorExtractor
 
-The whole purpose this was made was because I needed a way to extract colors, and node-vibrant doesn't work in a Deno environment. So I made this.
+A simple tool to extract colors from images. It offers both a simple UI and an API route for integration in other projects.
 
-## For anyone looking to use this
+## How to use
 
-If the link is not live, clone it and publish it to vercel, then just call {url}/api/get-colors?url=... and it will return a JSON object with the colors.
+If there is a production link, you can use it directly. Otherwise, you can clone the repository and run it locally.
+
+### [Production link](https://coolor-extractor.sebastijanzindl.me/)
