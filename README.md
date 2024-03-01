@@ -1,3 +1,5 @@
+[![Repository Image](./.github/header.png)](https://coolor-extractor.sebastijanzindl.me/)
+
 # coolorExtractor
 
 A simple tool to extract colors from images. It offers both a simple UI and an API route for integration in other projects.
