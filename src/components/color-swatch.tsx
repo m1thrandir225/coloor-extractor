@@ -9,7 +9,15 @@ type ColorSwatchProps = {
 export default function ColorSwatch({color, name}: ColorSwatchProps) {
   const copyToClipboard = () => {
     navigator.clipboard.writeText(color);
-    toast.info(`Copied ${name}(${color}) to clipboard`);
+
+    toast.custom((t) => (
+      <div className="max-w-[350px] w-full md:w-[350px] p-4 bg-white border-2 border-black dark:bg-neutral-900 dark:border-white">
+        <h1 className="font-sans text-sm font-bold">
+          Copied <span style={{color: color}}>{`${name}(${color})`}</span> to
+          clipboard{" "}
+        </h1>
+      </div>
+    ));
   };
   return (
     <div
