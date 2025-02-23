@@ -66,7 +66,7 @@ export default function Form({getColors}: FormProps) {
                 name="url"
                 placeholder="Your image URL"
                 type="text"
-                value={imageURL}
+                value={imageURL || ""}
                 onChange={(e) => setImageURL(e.target.value)}
                 className="w-full px-4 py-2 transition-all duration-150 ease-in-out outline outline-2 focus:outline-purple-900 font-rubik dark:focus:outline-purple-400 dark:bg-neutral-800"
               />
