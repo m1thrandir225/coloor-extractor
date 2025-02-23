@@ -6,25 +6,33 @@ import type {ColorsArray} from "@/types";
 import {toast} from "sonner";
 import {url} from "inspector";
 import ColorSwatch from "../../components/color-swatch";
+import {Loader2} from "lucide-react";
 
 type FormProps = {
   getColors: (url: string) => Promise<ColorsArray>;
 };
 
 export default function Form({getColors}: FormProps) {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [colors, setColors] = useState<ColorsArray | null>(null);
-  const [imageURL, setImageURL] = useState<string>(
+  const [imageURL, setImageURL] = useState<string | null | undefined>(
     "https://placebear.com/600/400"
   );
   const handleSubmit = async (formData: FormData) => {
-    const url = formData.get("url") as string;
+    try {
+      setIsLoading(true);
+      const url = formData.get("url") as string;
 
-    if (!url) {
-      toast.error("Please enter an image URL");
-      return;
+      if (!url) {
+        throw new Error("Please enter a valid URL");
+      }
+
+      await getColors(url).then((colors) => setColors(colors));
+    } catch (error) {
+      toast.error("An error occurred." + error);
+    } finally {
+      setIsLoading(false);
     }
-
-    await getColors(url).then((colors) => setColors(colors));
   };
 
   return (
@@ -34,13 +42,17 @@ export default function Form({getColors}: FormProps) {
           action={handleSubmit}
           className="container flex flex-col items-center justify-center gap-4 mx-auto"
         >
-          <Image
-            src={imageURL || "/placeholder.png"}
-            alt={imageURL || "Please enter an image URL"}
-            width={600}
-            height={400}
-            className="object-contain border-2 border-black rounded-sm dark:border-white w-full  max-w-[90%] md:max-w-[600px]"
-          />
+          {imageURL && (
+            <div className="w-full max-w-[600px] relative h-[250px] md:h-[400px] xl:h-[650px]">
+              <Image
+                src={imageURL || "/placeholder.png"}
+                alt={imageURL || "Please enter an image URL"}
+                fill
+                className="object-contain w-full border-black rounded-sm md:border-2 dark:border-white "
+              />
+            </div>
+          )}
+
           <div className="flex flex-col items-start justify-start w-full max-w-[90%] gap-2 md:max-w-[400px]">
             <label
               htmlFor="url"
@@ -61,10 +73,10 @@ export default function Form({getColors}: FormProps) {
 
               <button
                 type="submit"
-                disabled={!imageURL}
+                disabled={!imageURL || isLoading}
                 className="px-4 py-2 transition-all duration-150 ease-in-out border-2 border-black dark:border-white text-md g-neutral-50 font-rubik hover:bg-neutral-50 hover:border-purple-900 dark:hover:border-purple-400 dark:hover:bg-neutral-800"
               >
-                Extract
+                {isLoading ? <Loader2 className="animate-spin" /> : "Extract"}
               </button>
             </div>
           </div>
